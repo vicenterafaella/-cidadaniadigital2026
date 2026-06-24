@@ -1,15 +1,12 @@
-/* Variáveis de Cores e Configurações Globais (Tema Claro Padrão) */
 :root {
     --cor-fundo: #f4f6f9;
     --cor-card: #ffffff;
     --cor-texto: #1a1a2e;
     --cor-primaria: #0f4c81;
     --cor-neon-alerta: #e94560;
-    --cor-neon-sucesso: #00b4d8;
     --transicao: all 0.3s ease;
 }
 
-/* Variáveis para Modo Escuro */
 body.dark-mode {
     --cor-fundo: #0f0c1b;
     --cor-card: #1a1528;
@@ -24,7 +21,7 @@ body.dark-mode {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     background-color: var(--cor-fundo);
     color: var(--cor-texto);
     transition: var(--transicao);
@@ -54,7 +51,6 @@ section {
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    transition: var(--transicao);
 }
 
 h1, h2 {
@@ -66,7 +62,7 @@ p {
     margin-bottom: 1rem;
 }
 
-/* Estilização do Canvas do Jogo Shooter */
+/* Centralização e ajuste do Canvas do Jogo */
 #container-canvas {
     position: relative;
     width: 100%;
@@ -78,7 +74,7 @@ canvas {
     background: #050510;
     display: block;
     width: 100%;
-    height: auto;
+    height: 400px;
     border: 3px solid var(--cor-primaria);
     border-radius: 8px;
 }
@@ -103,7 +99,6 @@ canvas {
     margin-top: 1rem;
 }
 
-/* Formulários */
 .grupo-campo {
     display: flex;
     flex-direction: column;
@@ -118,21 +113,13 @@ input, select {
     background-color: var(--cor-fundo);
     color: var(--cor-texto);
     font-size: 1rem;
-    transition: var(--transicao);
 }
 
-input:focus, select:focus {
-    outline: none;
-    border-color: var(--cor-primaria);
-}
-
-/* Botões com efeito Hover Suante */
 button {
     cursor: pointer;
     padding: 0.8rem 1.5rem;
     border: none;
     border-radius: 6px;
-    font-size: 1rem;
     font-weight: bold;
     transition: var(--transicao);
 }
@@ -143,7 +130,7 @@ button {
     width: 100%;
 }
 
-#btn-enviar:hover, #btn-reiniciar:hover {
+button:hover {
     filter: brightness(1.2);
     transform: translateY(-2px);
 }
@@ -176,21 +163,7 @@ footer {
     opacity: 0.8;
 }
 
-/* 4. Media Queries para Responsividade (Telas de Celular) */
 @media (max-width: 600px) {
-    header {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-    
-    section {
-        padding: 1.2rem;
-    }
-
-    #placar {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
-    }
+    header { flex-direction: column; gap: 1rem; }
+    #placar { flex-direction: column; align-items: center; gap: 0.5rem; }
 }
