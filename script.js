@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-    // Elementos do DOM
+    // Elementos gerais do DOM
     const btnTema = document.getElementById('btn-tema');
     const formDenuncia = document.getElementById('form-denuncia');
     const feedbackForm = document.getElementById('feedback-form');
@@ -13,20 +13,75 @@ window.addEventListener('DOMContentLoaded', () => {
     const contadorFake = document.getElementById('contador-fake');
     const feedbackQuiz = document.getElementById('feedback-quiz');
 
+    // Elementos do Laboratório de Áudio
+    const textoLab = document.getElementById('texto-lab');
+    const btnSincrono = document.getElementById('btn-tocar-sincrono');
+    const btnAssincrono = document.getElementById('btn-tocar-assincrono');
+
     // 1. Controle do Modo Escuro
     btnTema.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         btnTema.textContent = document.body.classList.contains('dark-mode') ? 'Modo Claro' : 'Modo Escuro';
     });
 
-    // 2. Simulador Estatístico Dinâmico (Mídias manipuladas geradas por segundo)
+    // 2. Simulador Estatístico Dinâmico
     let totalFakeMídias = 0;
     setInterval(() => {
-        totalFakeMídias += Math.floor(Math.random() * 4) + 2; // Simula aumento de 2 a 5 posts
+        totalFakeMídias += Math.floor(Math.random() * 4) + 2;
         contadorFake.textContent = totalFakeMídias.toLocaleString('pt-BR');
     }, 1000);
 
-    // 3. Validador Logístico do Quiz Anti-Desinformação
+    // 3. Gerador e Manipulador Técnico de Frequências (Web Audio API)
+    function emitirSomDigital() {
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscilador = audioCtx.createOscillator();
+            const ganho = audioCtx.createGain();
+
+            oscilador.type = 'sine';
+            oscilador.frequency.setValueAtTime(350, audioCtx.currentTime); // Frequência do bipe sintético
+            
+            ganho.gain.setValueAtTime(0.1, audioCtx.currentTime); // Mantém o volume confortável
+            ganho.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+
+            oscilador.connect(ganho);
+            ganho.connect(audioCtx.destination);
+            
+            oscilador.start();
+            oscilador.stop(audioCtx.currentTime + 0.4);
+        } catch (erro) {
+            console.log("Interação prévia necessária para habilitar áudio no navegador.");
+        }
+    }
+
+    // Ação Síncrona (Áudio e visual ocorrem no exato mesmo momento)
+    btnSincrono.addEventListener('click', () => {
+        // Ativa animação visual
+        textoLab.classList.add('pulsa-fala');
+        // Toca áudio imediatamente
+        emitirSomDigital();
+        
+        setTimeout(() => {
+            textoLab.classList.remove('pulsa-fala');
+        }, 400);
+    });
+
+    // Ação Assíncrona (Aplica lag de 800ms simulando dessincronização de deepfake)
+    btnAssincrono.addEventListener('click', () => {
+        // Ativa animação visual primeiro
+        textoLab.classList.add('pulsa-fala');
+        
+        setTimeout(() => {
+            textoLab.classList.remove('pulsa-fala');
+        }, 400);
+
+        // O som é disparado de forma desconexa com um delay artificial (Manipulação do DOM/Tempo)
+        setTimeout(() => {
+            emitirSomDigital();
+        }, 800); 
+    });
+
+    // 4. Validador Logístico do Quiz Anti-Desinformação
     const botoesQuiz = document.querySelectorAll('.btn-quiz');
     botoesQuiz.forEach(botao => {
         botao.addEventListener('click', (e) => {
@@ -43,7 +98,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 4. Processador de Formulário de Denúncia
+    // 5. Processador de Formulário de Denúncia
     formDenuncia.addEventListener('submit', (e) => {
         e.preventDefault();
         const anomalia = document.getElementById('tipo-anomalia').value;
@@ -53,7 +108,7 @@ window.addEventListener('DOMContentLoaded', () => {
         formDenuncia.reset();
     });
 
-    // 5. Motor do Arcade Space Shooter
+    // 6. Motor do Arcade Space Shooter
     let pontuacao = 0;
     let erros = 0;
     let jogoAtivo = true;
