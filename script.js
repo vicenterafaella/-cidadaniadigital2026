@@ -1,4 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
+    // Elementos do DOM
     const btnTema = document.getElementById('btn-tema');
     const formDenuncia = document.getElementById('form-denuncia');
     const feedbackForm = document.getElementById('feedback-form');
@@ -9,28 +10,55 @@ window.addEventListener('DOMContentLoaded', () => {
     const errosVal = document.getElementById('erros-val');
     const telaGameOver = document.getElementById('tela-game-over');
     const btnReiniciar = document.getElementById('btn-reiniciar');
+    const contadorFake = document.getElementById('contador-fake');
+    const feedbackQuiz = document.getElementById('feedback-quiz');
 
-    // Controle de Tema Escuro
+    // 1. Controle do Modo Escuro
     btnTema.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         btnTema.textContent = document.body.classList.contains('dark-mode') ? 'Modo Claro' : 'Modo Escuro';
     });
 
-    // Envio do Formulário
+    // 2. Simulador Estatístico Dinâmico (Mídias manipuladas geradas por segundo)
+    let totalFakeMídias = 0;
+    setInterval(() => {
+        totalFakeMídias += Math.floor(Math.random() * 4) + 2; // Simula aumento de 2 a 5 posts
+        contadorFake.textContent = totalFakeMídias.toLocaleString('pt-BR');
+    }, 1000);
+
+    // 3. Validador Logístico do Quiz Anti-Desinformação
+    const botoesQuiz = document.querySelectorAll('.btn-quiz');
+    botoesQuiz.forEach(botao => {
+        botao.addEventListener('click', (e) => {
+            const respostaEscolhida = e.target.getAttribute('data-resposta');
+            feedbackQuiz.classList.remove('escondido');
+            
+            if (respostaEscolhida === 'verdadeiro') {
+                feedbackQuiz.textContent = "Correto! As tecnologias atuais geram mídias hiper-realistas, exigindo checagem técnica rigorosa.";
+                feedbackQuiz.className = "sucesso";
+            } else {
+                feedbackQuiz.textContent = "Incorreto. Softwares modernos conseguem enganar facilmente a percepção humana desatenta.";
+                feedbackQuiz.className = "erro";
+            }
+        });
+    });
+
+    // 4. Processador de Formulário de Denúncia
     formDenuncia.addEventListener('submit', (e) => {
         e.preventDefault();
         const anomalia = document.getElementById('tipo-anomalia').value;
-        feedbackForm.textContent = `Análise concluída. Padrão de "${anomalia}" enviado ao banco de dados anti-desinformação.`;
+        feedbackForm.classList.remove('escondido');
+        feedbackForm.textContent = `Registro Concluído: O relatório focado em "${anomalia}" foi indexado para processamento comunitário.`;
         feedbackForm.className = "sucesso";
         formDenuncia.reset();
     });
 
-    // Lógica Básica do Jogo Space Shooter
+    // 5. Motor do Arcade Space Shooter
     let pontuacao = 0;
     let erros = 0;
     let jogoAtivo = true;
 
-    const nave = { x: 275, y: 350, largura: 50, altura: 25, velocidade: 8 };
+    const nave = { x: 275, y: 350, largura: 50, altura: 25, velocidade: 9 };
     let tiros = [];
     let inimigos = [];
 
@@ -39,7 +67,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'ArrowLeft') teclas.Left = true;
         if (e.key === 'ArrowRight') teclas.Right = true;
         if (e.key === ' ' && jogoAtivo) {
-            tiros.push({ x: nave.x + nave.largura / 2 - 2, y: nave.y, largura: 4, height: 10, velocidade: 7 });
+            tiros.push({ x: nave.x + nave.largura / 2 - 2, y: nave.y, largura: 4, velocidade: 8 });
         }
     });
     window.addEventListener('keyup', (e) => {
@@ -47,21 +75,21 @@ window.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'ArrowRight') teclas.Right = false;
     });
 
-    function gerarInimigos() {
+    function gerarAmeacas() {
         if (!jogoAtivo) return;
-        const tipos = ['DEEPFAKE', 'BOT_FAKE', 'FATO_REAL'];
+        const classesAmeaca = ['DEEPFAKE', 'BOT_FAKE', 'FATO_REAL'];
         inimigos.push({
-            x: Math.random() * (canvas.width - 80),
+            x: Math.random() * (canvas.width - 90),
             y: 0,
-            largura: 80,
-            altura: 20,
-            tipo: tipos[Math.floor(Math.random() * tipos.length)],
-            velocidade: 2
+            largura: 85,
+            altura: 22,
+            tipo: classesAmeaca[Math.floor(Math.random() * classesAmeaca.length)],
+            velocidade: 2.2
         });
-        setTimeout(gerarInimigos, 1800);
+        setTimeout(gerarAmeacas, 1600);
     }
 
-    function atualizar() {
+    function atualizarMecanicas() {
         if (!jogoAtivo) return;
 
         if (teclas.Left && nave.x > 0) nave.x -= nave.velocidade;
@@ -101,24 +129,24 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function desenhar() {
+    function desenharElementos() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Desenhar nave
+        // Desenhar Defensor Digital (Nave)
         ctx.fillStyle = '#8257e5';
         ctx.fillRect(nave.x, nave.y, nave.largura, nave.altura);
 
-        // Desenhar tiros
+        // Desenhar Pulsos de Dados (Tiros)
         ctx.fillStyle = '#00b4d8';
         tiros.forEach(tiro => ctx.fillRect(tiro.x, tiro.y, 4, 10));
 
-        // Desenhar inimigos
+        // Desenhar Objetos Orbitais (Inimigos/Fatos)
         inimigos.forEach(inimigo => {
             ctx.fillStyle = inimigo.tipo === 'FATO_REAL' ? '#2ec4b6' : '#e94560';
             ctx.fillRect(inimigo.x, inimigo.y, inimigo.largura, inimigo.altura);
             ctx.fillStyle = '#ffffff';
-            ctx.font = '10px Arial';
-            ctx.fillText(inimigo.tipo, inimigo.x + 5, inimigo.y + 14);
+            ctx.font = 'bold 10px monospace';
+            ctx.fillText(inimigo.tipo, inimigo.x + 6, inimigo.y + 15);
         });
     }
 
@@ -128,12 +156,12 @@ window.addEventListener('DOMContentLoaded', () => {
         telaGameOver.classList.add('escondido');
     });
 
-    function loop() {
-        atualizar();
-        desenhar();
-        requestAnimationFrame(loop);
+    function loopJogo() {
+        atualizarMecanicas();
+        desenharElementos();
+        requestAnimationFrame(loopJogo);
     }
 
-    gerarInimigos();
-    loop();
+    gerarAmeacas();
+    loopJogo();
 });
