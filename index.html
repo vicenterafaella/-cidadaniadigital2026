@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Cidadania Digital: Operação Anti-Deepfake</title>
-    <!-- IMPORTANTE: Agora aponta direto para o arquivo na mesma pasta -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,11 +14,50 @@
     </header>
 
     <main>
+        <!-- Introdução & Contador de Impacto Social em Tempo Real -->
         <section id="introducao">
             <h2>O Impacto das Deepfakes e da Desinformação</h2>
             <p>Inteligências Artificiais generativas facilitaram a criação de mídias falsas ultra-realistas. Navegue pelo espaço da informação e aprenda a combater a desinformação automatizada!</p>
+            <div class="alerta-estatistica">
+                <p>⚠️ Estimativa de conteúdos manipulados ou enganosos compartilhados na web desde que você abriu esta página: <strong id="contador-fake">0</strong></p>
+            </div>
         </section>
 
+        <!-- NOVO: Guia Visual de Identificação (Uso Avançado de Flexbox/Hover) -->
+        <section id="guia-inspecao">
+            <h2>Como Detectar um Deepfake?</h2>
+            <p>Passe o mouse ou toque nos cartões para revelar o que inspecionar em mídias suspeitas:</p>
+            <div class="container-cards">
+                <div class="card-inspecao">
+                    <h3>👁️ Olhos e Face</h3>
+                    <p class="detalhe-card">Verifique se o piscar de olhos parece mecânico ou se há reflexos duplos e sombras inconsistentes na íris.</p>
+                </div>
+                <div class="card-inspecao">
+                    <h3>🗣️ Sincronia de Áudio</h3>
+                    <p class="detalhe-card">Preste atenção se os movimentos dos lábios coincidem perfeitamente com as sílabas pronunciadas.</p>
+                </div>
+                <div class="card-inspecao">
+                    <h3>🖼️ Bordas e Fundo</h3>
+                    <p class="detalhe-card">Procure por desfoques anormais ao redor do pescoço, orelhas ou linhas de fundo distorcidas.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOVO: Quiz de Validação Rápida (Requisito da Aula 3) -->
+        <section id="quiz-secao">
+            <h2>Desafio de Análise de Fatos</h2>
+            <p>Teste seus reflexos conceituais antes de assumir o controle da nave:</p>
+            <div id="container-quiz">
+                <p id="pergunta-texto">"Se um vídeo de uma figura pública possui excelente qualidade, ele é 100% confiável?"</p>
+                <div class="botoes-quiz">
+                    <button class="btn-quiz" data-resposta="falso">Sim, IA só faz vídeo ruim</button>
+                    <button class="btn-quiz" data-resposta="verdadeiro">Não, IAs criam mídias ultra-realistas</button>
+                </div>
+                <div id="feedback-quiz" class="escondido"></div>
+            </div>
+        </section>
+
+        <!-- O Jogo Interativo (Space Shooter) -->
         <section id="arena-jogo">
             <h2>Arcade Anti-Desinformação</h2>
             <p>Use as setas <strong>Esquerda/Direita</strong> para mover e <strong>Espaço</strong> para atirar nos Deepfakes. Evite os Fatos!</p>
@@ -38,6 +76,7 @@
             </div>
         </section>
 
+        <!-- Formulário de Denúncia / Feedback -->
         <section id="formulario-conscientizacao">
             <h2>Reportar Mídia Suspeita</h2>
             <p>Encontrou um conteúdo duvidoso? Ajude a mapear a desinformação analisando os critérios abaixo.</p>
@@ -69,7 +108,6 @@
         <p>&copy; 2026 Projeto Cidadania Digital. Desenvolvido para fins educacionais.</p>
     </footer>
 
-    <!-- IMPORTANTE: Agora aponta direto para o script na mesma pasta -->
     <script src="script.js"></script>
 </body>
 </html>
