@@ -3,59 +3,370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Defensores Digitais: Combate às Deepfakes</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>CyberShield: Contra as Deepfakes</title>
+    <style>
+        /* ==========================================
+           AULA 2: ESTILIZAÇÃO VISUAL E LAYOUT CSS
+           ========================================== */
+        :root {
+            --bg-color: #0a0f1d;
+            --container-bg: #111827;
+            --text-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --header-gradient: linear-gradient(135deg, #1e3a8a, #3b82f6);
+        }
+
+        /* Classe para o Botão de Acessibilidade (Modo Claro) */
+        .light-mode {
+            --bg-color: #ffffff;
+            --container-bg: #f3f4f6;
+            --text-color: #111827;
+            --accent-color: #2563eb;
+            --success-color: #059669;
+            --danger-color: #dc2626;
+            --header-gradient: linear-gradient(135deg, #111827, #374151);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+
+        header {
+            background: var(--header-gradient);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .accessibility-panel {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        .btn-toggle {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .btn-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            background-color: var(--container-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 5px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        /* Utilização Avançada de Flexbox para o Layout do Jogo */
+        .game-status {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .quiz-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .actions-flex {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        /* Efeitos visuais interativos (Hover suave para Nível 4) */
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-danger { background-color: var(--danger-color); color: white; }
+        .btn-success { background-color: var(--success-color); color: white; }
+        .btn-primary { background-color: var(--accent-color); color: white; width: 100%; }
+
+        .feedback-message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+        }
+
+        /* Estruturação do Formulário Semântico */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        input, textarea {
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(0, 0, 0, 0.2);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        input:focus, textarea:focus {
+            outline: 2px solid var(--accent-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+
+        /* ==========================================
+           AULA 4: MEDIA QUERIES (RESPONSIVIDADE)
+           ========================================== */
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.6rem; }
+            section { padding: 20px; }
+            .actions-flex { flex-direction: column; }
+            button { width: 100%; }
+            .game-status { flex-direction: column; gap: 5px; text-align: center; }
+        }
+    </style>
 </head>
 <body>
 
     <header>
-        <h1>Missão: Cidadania Digital</h1>
-        <p>Use sua inteligência para combater a desinformação automatizada!</p>
+        <div class="accessibility-panel">
+            <button class="btn-toggle" onclick="toggleDarkMode()">Alternar Modo Claro</button>
+        </div>
+        <h1>CyberShield: Fake News Shooter</h1>
+        <p>Garantindo a Cidadania Digital contra a desinformação por Inteligência Artificial</p>
     </header>
 
     <main>
-        <section id="sobre">
-            <h2>O Perigo das Deepfakes</h2>
-            <p>Vídeos e áudios manipulados por Inteligência Artificial estão mudando a forma como vemos a verdade. Você está pronto para identificar o que é real e o que é gerado por IA?</p>
+        <section id="contexto">
+            <h2>O Impacto das Deepfakes</h2>
+            <p>Com o avanço da Inteligência Artificial, a criação de mídias manipuladas hiper-realistas (Deepfakes) tornou-se um grande desafio. Vídeos falsos de líderes políticos e golpes financeiros usando vozes clonadas ameaçam a nossa segurança digital.</p>
+            <p><strong>Missão:</strong> Analise as ameaças que chegam ao radar. Use o disparador apenas nas mídias que forem manipuladas por IA para salvar a integridade da comunidade!</p>
         </section>
 
-        <section id="game-quiz">
-            <h2>Detector de Deepfakes: O Jogo</h2>
-            <p>Analise o caso abaixo e decida: é Fato ou Fake?</p>
+        <section id="game-shooter">
+            <h2>Navegação de Defesa: Abata os Fakes</h2>
             
-            <div id="quiz-container">
-                <p class="pergunta">"Vídeo mostra CEO de grande empresa anunciando a cura de uma doença, mas os lábios dele não sincronizam perfeitamente com o áudio."</p>
-                <div class="botoes-respostas">
-                    <button type="button" class="btn-resposta" onclick="verificarResposta(true)">É Deepfake! (Atirar)</button>
-                    <button type="button" class="btn-resposta" onclick="verificarResposta(false)">É Real!</button>
+            <div class="game-status">
+                <div>Pontuação de Defesa: <span id="score-counter">0</span>/3</div>
+                <div>Ameaça Atual: <span id="question-number">1/3</span></div>
+            </div>
+
+            <div class="quiz-box">
+                <p id="question-text" class="question-text">A carregar os sistemas de defesa...</p>
+                <div class="actions-flex">
+                    <button class="btn-danger" onclick="processUserAction(true)">💥 DISPARAR: É DEEPFAKE!</button>
+                    <button class="btn-success" onclick="processUserAction(false)">🛡️ PERMITIR: É REAL!</button>
                 </div>
-                <div id="resultado"></div>
+                <div id="feedback" class="feedback-message"></div>
             </div>
         </section>
 
-        <section id="contato">
-            <h2>Reporte uma Suspeita</h2>
-            <p>Viu um conteúdo duvidoso na internet? Envie para nossa comunidade analisar.</p>
+        <section id="comunidade">
+            <h2>Reportar Anomalia Digital</h2>
+            <p>Encontrou um conteúdo suspeito na internet? Envie para o nosso banco de dados comunitário para análise detalhada.</p>
             
-            <form id="form-denuncia">
-                <label for="nome">Seu Nome/Codinome:</label>
-                <input type="text" id="nome" name="nome" required placeholder="Ex: ShieldDigital">
+            <form id="anomaly-form" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label for="username">Identificação do Cidadão:</label>
+                    <input type="text" id="username" required placeholder="Ex: Agente_Silva">
+                </div>
+                
+                <div class="form-group">
+                    <label for="media-url">URL da Mídia Suspeita:</label>
+                    <input type="url" id="media-url" required placeholder="https://exemplo.com/video-suspeito">
+                </div>
 
-                <label for="link">Link da Mídia Suspeita:</label>
-                <input type="url" id="link" name="link" required placeholder="https://...">
+                <div class="form-group">
+                    <label for="description">Evidências de Manipulação por IA:</label>
+                    <textarea id="description" rows="4" required placeholder="Ex: Falhas de sincronia na boca, piscar de olhos ausente..."></textarea>
+                </div>
 
-                <label for="mensagem">Por que você acha que é manipulado?</label>
-                <textarea id="mensagem" name="mensagem" rows="4" required placeholder="Descreva os detalhes visuais ou de áudio..."></textarea>
-
-                <button type="submit">Enviar Relatório</button>
+                <button type="submit" class="btn-primary">Enviar Relatório de Ameaça</button>
             </form>
+            <div id="form-feedback" class="feedback-message" style="background-color: var(--success-color); color: white;"></div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 - Desenvolvido para a Recuperação de Educação Digital e IA.</p>
+        <p>&copy; 2026 - Repositório Oficial #cidadaniadigital2026. Projeto de Conscientização Social.</p>
     </footer>
 
-    <script href="js/script.js"></script>
+    <script>
+        // Banco de dados das ameaças utilizando variáveis prontas para processamento
+        const database = [
+            {
+                text: '"Vídeo circulando nas redes sociais mostra um candidato à presidência declarando falência da saúde pública, mas os lábios dele não sincronizam com o som e as orelhas piscam levemente nas bordas."',
+                isDeepfake: true,
+                explanation: "Alvo Abatido! Falhas de sincronização labial e pequenos borrões de imagem ao redor do rosto são sinais clássicos de Deepfakes."
+            },
+            {
+                text: '"Áudio do prefeito da cidade anunciando o cancelamento das aulas escolares devido a uma tempestade torrencial real documentada por radares oficiais de meteorologia."',
+                isDeepfake: false,
+                explanation: "Boa escolha! A informação coincide com canais e órgãos oficiais do governo. A mídia é real e legítima."
+            },
+            {
+                text: '"Vídeo de um famoso influenciador recomendando um investimento financeiro milagroso com retorno garantido, com a voz ligeiramente robótica e sem emoção."',
+                isDeepfake: true,
+                explanation: "Ameaça Eliminada! Criminosos usam clonagem de voz por IA para simular recomendações de celebridades. Sempre desconfie de lucros fáceis."
+            }
+        ];
+
+        let currentIndex = 0;
+        let score = 0;
+
+        // Função para atualizar dinamicamente o DOM com a questão atual
+        function loadThreat() {
+            if (currentIndex < database.length) {
+                document.getElementById('question-number').textContent = `${currentIndex + 1}/${database.length}`;
+                document.getElementById('question-text').textContent = database[currentIndex].text;
+                document.getElementById('feedback').style.display = 'none';
+            } else {
+                // Estado final do jogo após processar todas as variáveis
+                document.getElementById('question-number').textContent = "Concluído";
+                document.getElementById('question-text').innerHTML = `<h3>Treinamento de Defesa Concluído!</h3><p>A tua pontuação final de proteção comunitária foi de <strong>${score} de ${database.length}</strong> pontos.</p>`;
+                document.getElementsByClassName('actions-flex')[0].style.display = 'none';
+            }
+        }
+
+        // Processa as ações e atualiza os contadores em tempo real
+        function processUserAction(userGuessedDeepfake) {
+            const currentThreat = database[currentIndex];
+            const feedbackDiv = document.getElementById('feedback');
+            
+            feedbackDiv.style.display = 'block';
+            
+            if (userGuessedDeepfake === currentThreat.isDeepfake) {
+                score++;
+                document.getElementById('score-counter').textContent = score;
+                feedbackDiv.style.backgroundColor = 'var(--success-color)';
+                feedbackDiv.textContent = "✅ DEFESA EXECUTADA! " + currentThreat.explanation;
+            } else {
+                feedbackDiv.style.backgroundColor = 'var(--danger-color)';
+                feedbackDiv.textContent = "❌ SISTEMA COMPROMETIDO! " + currentThreat.explanation;
+            }
+
+            // Transição automática para o próximo cenário após 4 segundos
+            setTimeout(() => {
+                currentIndex++;
+                loadThreat();
+            }, 4000);
+        }
+
+        // Resposta dinâmica às ações do formulário do utilizador
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const formFeedback = document.getElementById('form-feedback');
+            
+            formFeedback.style.display = 'block';
+            formFeedback.textContent = `Sucesso! Obrigado, Agente ${username}. O teu relatório foi adicionado com sucesso ao banco de dados global.`;
+            
+            document.getElementById('anomaly-form').reset();
+            setTimeout(() => { formFeedback.style.display = 'none'; }, 5000);
+        }
+
+        // Melhoria de Acessibilidade via JS: Alternador de Modo Claro/Escuro
+        function toggleDarkMode() {
+            document.body.classList.toggle('light-mode');
+            const btn = document.querySelector('.btn-toggle');
+            if(document.body.classList.contains('light-mode')) {
+                btn.textContent = "Alternar Modo Escuro";
+            } else {
+                btn.textContent = "Alternar Modo Claro";
+            }
+        }
+
+        // Execução inicial ao abrir a página
+        window.onload = loadThreat;
+    </script>
 </body>
 </html>
