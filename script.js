@@ -31,40 +31,49 @@ window.addEventListener('DOMContentLoaded', () => {
         contadorFake.textContent = totalFakeMídias.toLocaleString('pt-BR');
     }, 1000);
 
-    // 3. NOVO: Gerador de Voz Real e Humana (SpeechSynthesis API)
-    function falarFrase() {
-        // Cancela qualquer fala que esteja tocando antes para não encavalar
-        window.speechSynthesis.cancel();
-        
-        const frase = new SpeechSynthesisUtterance("Este é um exemplo de áudio do portal");
-        frase.lang = 'pt-BR'; // Força o idioma para português brasileiro
-        frase.rate = 1.0;     // Velocidade normal da voz
-        frase.pitch = 1.0;    // Tom da voz
+    // 3. Sistema de Áudio à Prova de Falhas (Bipe curto em Base64 nativo)
+    // Este método não depende de arquivos externos ou de vozes do sistema operacional
+    const somBipe = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
 
-        window.speechSynthesis.speak(frase);
+    function dispararSomSeguro() {
+        // Recria o contexto de som para resetar e forçar o player do navegador
+        const audioAlternativo = new (window.AudioContext || window.webkitAudioContext)();
+        const oscilador = audioAlternativo.createOscillator();
+        const ganho = audioAlternativo.createGain();
+
+        oscilador.type = 'sine';
+        oscilador.frequency.setValueAtTime(440, audioAlternativo.currentTime); // Tom claro (Lá)
+        ganho.gain.setValueAtTime(0.1, audioAlternativo.currentTime);
+        ganho.gain.exponentialRampToValueAtTime(0.01, audioAlternativo.currentTime + 0.3);
+
+        oscilador.connect(ganho);
+        ganho.connect(audioAlternativo.destination);
+
+        oscilador.start();
+        oscilador.stop(audioAlternativo.currentTime + 0.3);
     }
 
-    // Ação Síncrona: O visual pisca e a voz fala NO MESMO SEGUNDO (Realidade)
+    // Ação Síncrona: Ativa visual e dispara áudio simultaneamente
     btnSincrono.addEventListener('click', () => {
         textoLab.classList.add('pulsa-fala');
-        falarFrase(); // Toca na hora
+        dispararSomSeguro();
         
         setTimeout(() => {
             textoLab.classList.remove('pulsa-fala');
-        }, 1500);
+        }, 300);
     });
 
-    // Ação Assíncrona: O visual pisca PRIMEIRO e a voz fala DEPOIS (Deepfake com defeito)
+    // Ação Assíncrona: Ativa visual e atrasa o áudio propositalmente em 1.2 segundos (Efeito Fake)
     btnAssincrono.addEventListener('click', () => {
         textoLab.classList.add('pulsa-fala');
         
         setTimeout(() => {
             textoLab.classList.remove('pulsa-fala');
-        }, 1500);
+        }, 300);
 
-        // Cria um atraso bizarro e proposital de 1.2 segundos para simular a falha da IA
+        // Aplica o atraso técnico artificial
         setTimeout(() => {
-            falarFrase();
+            dispararSomSeguro();
         }, 1200); 
     });
 
@@ -100,7 +109,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let erros = 0;
     let jogoAtivo = true;
 
-    const nave = { x: 275, y: 350, largura: 50, altura: 25, velocidad: 9 };
+    const nave = { x: 275, y: 350, largura: 50, altura: 25, velocidade: 9 };
     let tiros = [];
     let inimigos = [];
 
