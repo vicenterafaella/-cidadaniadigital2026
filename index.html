@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defensores Digitais: Combate às Deepfakes</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Missão: Cidadania Digital</h1>
+        <p>Use sua inteligência para combater a desinformação automatizada!</p>
+    </header>
+
+    <main>
+        <section id="sobre">
+            <h2>O Perigo das Deepfakes</h2>
+            <p>Vídeos e áudios manipulados por Inteligência Artificial estão mudando a forma como vemos a verdade. Você está pronto para identificar o que é real e o que é gerado por IA?</p>
+        </section>
+
+        <section id="game-quiz">
+            <h2>Detector de Deepfakes: O Jogo</h2>
+            <p>Analise o caso abaixo e decida: é Fato ou Fake?</p>
+            
+            <div id="quiz-container">
+                <p class="pergunta">"Vídeo mostra CEO de grande empresa anunciando a cura de uma doença, mas os lábios dele não sincronizam perfeitamente com o áudio."</p>
+                <div class="botoes-respostas">
+                    <button type="button" class="btn-resposta" onclick="verificarResposta(true)">É Deepfake! (Atirar)</button>
+                    <button type="button" class="btn-resposta" onclick="verificarResposta(false)">É Real!</button>
+                </div>
+                <div id="resultado"></div>
+            </div>
+        </section>
+
+        <section id="contato">
+            <h2>Reporte uma Suspeita</h2>
+            <p>Viu um conteúdo duvidoso na internet? Envie para nossa comunidade analisar.</p>
+            
+            <form id="form-denuncia">
+                <label for="nome">Seu Nome/Codinome:</label>
+                <input type="text" id="nome" name="nome" required placeholder="Ex: ShieldDigital">
+
+                <label for="link">Link da Mídia Suspeita:</label>
+                <input type="url" id="link" name="link" required placeholder="https://...">
+
+                <label for="mensagem">Por que você acha que é manipulado?</label>
+                <textarea id="mensagem" name="mensagem" rows="4" required placeholder="Descreva os detalhes visuais ou de áudio..."></textarea>
+
+                <button type="submit">Enviar Relatório</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 - Desenvolvido para a Recuperação de Educação Digital e IA.</p>
+    </footer>
+
+    <script href="js/script.js"></script>
+</body>
+</html>
