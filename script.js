@@ -31,49 +31,51 @@ window.addEventListener('DOMContentLoaded', () => {
         contadorFake.textContent = totalFakeMídias.toLocaleString('pt-BR');
     }, 1000);
 
-    // 3. Sistema de Áudio à Prova de Falhas (Bipe curto em Base64 nativo)
-    // Este método não depende de arquivos externos ou de vozes do sistema operacional
-    const somBipe = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
-
-    function dispararSomSeguro() {
-        // Recria o contexto de som para resetar e forçar o player do navegador
-        const audioAlternativo = new (window.AudioContext || window.webkitAudioContext)();
-        const oscilador = audioAlternativo.createOscillator();
-        const ganho = audioAlternativo.createGain();
-
-        oscilador.type = 'sine';
-        oscilador.frequency.setValueAtTime(440, audioAlternativo.currentTime); // Tom claro (Lá)
-        ganho.gain.setValueAtTime(0.1, audioAlternativo.currentTime);
-        ganho.gain.exponentialRampToValueAtTime(0.01, audioAlternativo.currentTime + 0.3);
-
-        oscilador.connect(ganho);
-        ganho.connect(audioAlternativo.destination);
-
-        oscilador.start();
-        oscilador.stop(audioAlternativo.currentTime + 0.3);
+    // 3. SISTEMA DE VOZ DO NAVEGADOR CORRIGIDO
+    // Pré-carrega o sistema de vozes para evitar falhas em segundo plano
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.getVoices();
     }
 
-    // Ação Síncrona: Ativa visual e dispara áudio simultaneamente
+    function executarVozHumana() {
+        if ('speechSynthesis' in window) {
+            // Cancela qualquer som preso para não acumular cliques
+            window.speechSynthesis.cancel();
+
+            // Mensagem curta e de rápido processamento pelo navegador
+            const mensagem = new SpeechSynthesisUtterance("Atenção: isto é um teste.");
+            mensagem.lang = 'pt-BR';
+            mensagem.rate = 1.1; // Velocidade levemente rápida para dinâmica natural
+            mensagem.pitch = 1.0;
+
+            window.speechSynthesis.speak(mensagem);
+        } else {
+            alert("Seu navegador não suporta reprodução de voz nativa.");
+        }
+    }
+
+    // Ação Síncrona: Ativa animação visual e fala EXATAMENTE juntos
     btnSincrono.addEventListener('click', () => {
         textoLab.classList.add('pulsa-fala');
-        dispararSomSeguro();
+        executarVozHumana(); // Dispara na hora do clique (Permissão concedida)
         
         setTimeout(() => {
             textoLab.classList.remove('pulsa-fala');
-        }, 300);
+        }, 1500);
     });
 
-    // Ação Assíncrona: Ativa visual e atrasa o áudio propositalmente em 1.2 segundos (Efeito Fake)
+    // Ação Assíncrona (Modo Deepfake): Pisca a tela IMEDIATAMENTE e atrasa a voz
     btnAssincrono.addEventListener('click', () => {
+        // O estímulo visual acontece no milissegundo do clique
         textoLab.classList.add('pulsa-fala');
         
         setTimeout(() => {
             textoLab.classList.remove('pulsa-fala');
-        }, 300);
+        }, 1500);
 
-        // Aplica o atraso técnico artificial
+        // Aplica o atraso artificial de 1.2 segundos (1200 milissegundos) para simular o delay
         setTimeout(() => {
-            dispararSomSeguro();
+            executarVozHumana();
         }, 1200); 
     });
 
